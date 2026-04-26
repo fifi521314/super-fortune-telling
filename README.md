@@ -40,7 +40,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
   - 主要相位 + 容许度 + 紧密度标注
   - 自动配置扫描（Stellium / T-Square / Grand Trine / Yod）
   - **Profection** 计算（Modern + Hellenistic 双系统）+ LOTY
-- **6 案例验证八字 100% 正确**
+
 
 ### 📐 37 条规则引擎
 

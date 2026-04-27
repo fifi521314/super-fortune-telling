@@ -229,7 +229,7 @@ python scripts/paipan_engine.py \
 
 #### subagent 角色分工：
 
-1. `bazi-agent`：只给出生信息 + "用八字（子平派）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 43 条规则**。**禁止提及占星**。
+1. `bazi-agent`：只给出生信息 + "用八字（子平派）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 45 条规则 · 严格先走 R44（突出矛盾扫描）+ R45（古典格局识别）+ R1 v3.2（月令本气优先）**。**禁止提及占星**。
 2. `astrology-agent`：只给出生信息 + "用西洋占星（Tompkins 心理占星派）给出以下维度的断语：{维度列表}"，**并严格按 `references/astrology/06-delineation-sop.md` 的 6 步流程执行**。**禁止提及八字**。
 
 **两 subagent 必须在同一 message 内并行 spawn（两个 Task 调用一起发）**。主 agent 在两者全部返回前不生成任何命理结论。
@@ -585,7 +585,7 @@ Step G. 才发给用户
 4. `references/research/06-epistemology.md`——认识论 + symbolic framework 辩护 + 诚实边界
 
 **规则引擎层**（2026-04-24 起持续蒸馏）：
-- `references/rules-engine.md`——八字 + 占星 + 合盘 + **输出层** 43 条技术推理规则（R1-R43）+ 双层脱毒架构 + 术语翻译词表
+- `references/rules-engine.md`——八字 + 占星 + 合盘 + 输出层 + **方法论层** 45 条技术推理规则（R1-R45）+ 双层脱毒架构 + 术语翻译词表 + 古典格局清单
 - `references/timing-sop.md`——**时间维度四层叠加 SOP**（命盘/大运/流年/Profection+Transit · 配合 R36/R37）
 - `references/synastry-sop.md`——**合盘 SOP**（八字合婚 + 占星 Synastry · 配合 R38-R42）
 - `scripts/paipan_engine.py`——**本地双轨排盘引擎**（sxtwl + Swiss Ephemeris + Profection，6 案例验证）

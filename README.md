@@ -42,7 +42,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
   - **Profection** 计算（Modern + Hellenistic 双系统）+ LOTY
 
 
-### 📐 42 条规则引擎
+### 📐 43 条规则引擎
 
 - **R1-R15**：八字基础（旺衰三维 + 用神排除法 + 调候 + 十神结构）
 - **R16-R20**：大运流年 + 刑冲合害
@@ -51,7 +51,8 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
 - **R26-R30**：占星方法论（相位优先 / 张力形态 / 操作系统 / 角色冲突 / 宫位场域）
 - **R31-R35**：盲派增强（寄禄 / 同气借禄 / 体用分野 / 合制做功 / 我宫见用神）
 - **R36-R37**：时间维度（**四层叠加诊断** + Profection 规范）
-- **R38-R42**：**合盘**（日干互动 + 喜用神互补 + 地支扫描 + Synastry 相位/落宫 + 节奏同步）
+- **R38-R42**：合盘（日干互动 + 喜用神互补 + 地支扫描 + Synastry 相位/落宫 + 节奏同步）
+- **R43**：**双层脱毒架构**（内部用术语推理 / 输出强制翻译成大白话）
 
 ### 🌍 占星知识库（Tompkins / LSA 心理占星）
 
@@ -184,7 +185,7 @@ super-fortune-telling/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── references/
-│   ├── rules-engine.md       # 42 条核心规则
+│   ├── rules-engine.md       # 43 条核心规则（含 R43 双层脱毒）
 │   ├── timing-sop.md         # R36 + R37 时间维度 SOP
 │   ├── synastry-sop.md       # R38-R42 合盘 SOP（八字合婚 + 占星 Synastry）
 │   ├── astrology/            # Tompkins 占星知识库（7 个文件）

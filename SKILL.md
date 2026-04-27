@@ -219,12 +219,31 @@ python scripts/paipan_engine.py \
 
 **必须使用 Task tool spawn 两个独立的 general-purpose subagent**（非可选）。这是防锚定污染的硬要求——单 LLM 顺序生成会让两轨互染。
 
-1. `bazi-agent`：只给出生信息 + "用八字（子平派）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 30 条规则**。**禁止提及占星**。
+1. `bazi-agent`：只给出生信息 + "用八字（子平派）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 42 条规则**。**禁止提及占星**。
 2. `astrology-agent`：只给出生信息 + "用西洋占星（Tompkins 心理占星派）给出以下维度的断语：{维度列表}"，**并严格按 `references/astrology/06-delineation-sop.md` 的 6 步流程执行**。**禁止提及八字**。
 
 **两 subagent 必须在同一 message 内并行 spawn（两个 Task 调用一起发）**。主 agent 在两者全部返回前不生成任何命理结论。
 
 **若执行环境不支持 Task tool**，必须向用户声明：**"本次为单轨道降级模式，两轨结论可能互染"** 再继续。
+
+#### 🆕 合盘场景（双方关系分析）的 Step 3 变体
+
+**触发条件**：用户问"合盘 / 合婚 / 我和他合不合 / synastry / 双方匹配 / 关系预测"等关系比较问题，**且**已通过硬边界检查（双方同意 + Hard No #3/#4 + Circuit Breaker #12）。
+
+**合盘 spawn 流程**（增量）：
+1. 主 agent 用 paipan_engine **分别为双方各排一次盘**（A 一次、B 一次）
+2. **仍 spawn 两个 subagent**（不是四个），但每个 subagent 的指令变化：
+   - `bazi-synastry-agent`：给**双方**完整八字数据 + "**严格按 `references/synastry-sop.md` 的八字合盘 5 步走**（R38 日干互动 → R39 喜用神互补 → R40 地支扫描 → R41 配偶星 → R42 大运同步）"
+   - `astrology-synastry-agent`：给**双方**完整占星数据 + "**严格按 `references/synastry-sop.md` 的占星 Synastry 5 步走**（关键相位 → 行星落宫 → 操作系统配合 → Composite Chart 若可算 → 主题共振）"
+3. 主 agent 收双轨合盘结果 → R21 合并扫描 → 脱毒输出
+
+**合盘 SOP 详见**：`references/synastry-sop.md`
+
+**合盘的硬边界（必走）**：
+- Hard No #3：双方未同意 → 拒做（用户可只读自己盘讨论"在该关系中的结构张力"）
+- Hard No #4：永远不预测"对方对你的感情意图"（"他爱不爱我"→ Reframe 为"你在这段关系真正需要什么"）
+- Reframe #14 加强版：用合盘做关系决策军火库 → 优先不排盘，先问"如果命理显示 X，你的决定会变吗"
+- Circuit Breaker #12：克夫 / 克家 / 孤星 + 伴侣要求隐藏关系 → 立即退出
 
 **每个 subagent 输出格式强制为 JSON**：
 ```json
@@ -470,8 +489,9 @@ python scripts/paipan_engine.py \
 4. `references/research/06-epistemology.md`——认识论 + symbolic framework 辩护 + 诚实边界
 
 **规则引擎层**（2026-04-24 起持续蒸馏）：
-- `references/rules-engine.md`——八字 + 占星 37 条技术推理规则（R1-R37）+ 脱毒输出模板
+- `references/rules-engine.md`——八字 + 占星 + **合盘** 42 条技术推理规则（R1-R42）+ 脱毒输出模板
 - `references/timing-sop.md`——**时间维度四层叠加 SOP**（命盘/大运/流年/Profection+Transit · 配合 R36/R37）
+- `references/synastry-sop.md`——**合盘 SOP**（八字合婚 + 占星 Synastry · 配合 R38-R42）
 - `scripts/paipan_engine.py`——**本地双轨排盘引擎**（sxtwl + Swiss Ephemeris + Profection，6 案例验证）
 - `references/astrology/`——占星知识库（Tompkins 心理占星 + LSA）
   - `00-philosophy.md`——Tompkins 六公理（占星读盘底层哲学）

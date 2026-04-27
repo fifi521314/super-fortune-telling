@@ -42,7 +42,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
   - **Profection** 计算（Modern + Hellenistic 双系统）+ LOTY
 
 
-### 📐 37 条规则引擎
+### 📐 42 条规则引擎
 
 - **R1-R15**：八字基础（旺衰三维 + 用神排除法 + 调候 + 十神结构）
 - **R16-R20**：大运流年 + 刑冲合害
@@ -51,6 +51,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
 - **R26-R30**：占星方法论（相位优先 / 张力形态 / 操作系统 / 角色冲突 / 宫位场域）
 - **R31-R35**：盲派增强（寄禄 / 同气借禄 / 体用分野 / 合制做功 / 我宫见用神）
 - **R36-R37**：时间维度（**四层叠加诊断** + Profection 规范）
+- **R38-R42**：**合盘**（日干互动 + 喜用神互补 + 地支扫描 + Synastry 相位/落宫 + 节奏同步）
 
 ### 🌍 占星知识库（Tompkins / LSA 心理占星）
 
@@ -60,6 +61,15 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
 ### 🎭 议会架构
 
 主 agent 平行 spawn 两个独立 subagent（八字 / 占星），每个只读自己的规则库，**互不通话**直到结果回来。然后 R21 双轨收敛 + Layer 3 主语对齐。
+
+### 💕 合盘功能（双方关系结构分析）
+
+支持 **八字合婚 + 占星 Synastry** 双轨合盘：
+- 八字层：日干互动 / 喜用神互补 / 地支刑冲合害（含伏吟警示）/ 配偶星呼应 / 大运同步性
+- 占星层：关键互相相位 / **行星落宫**（A 在 B 的什么宫位）/ 操作系统配合 / 主题共振
+- **硬边界**：双方必须同意 + 永不预测"对方对你的感情" + 永不做"应不应该在一起"判决 + Circuit Breaker 检测关系操控模式立即退出
+
+**触发词**：合盘 / 合婚 / 我和他合不合 / synastry / 双方匹配 / 关系结构
 
 ---
 
@@ -174,8 +184,9 @@ super-fortune-telling/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── references/
-│   ├── rules-engine.md       # 37 条核心规则
+│   ├── rules-engine.md       # 42 条核心规则
 │   ├── timing-sop.md         # R36 + R37 时间维度 SOP
+│   ├── synastry-sop.md       # R38-R42 合盘 SOP（八字合婚 + 占星 Synastry）
 │   ├── astrology/            # Tompkins 占星知识库（7 个文件）
 │   ├── research/             # 原始研究 dump（八字 / 紫微 / 占星）
 │   └── _archive/             # 紫微归档（已从主框架移除）

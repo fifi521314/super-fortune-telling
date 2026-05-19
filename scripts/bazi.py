@@ -184,22 +184,53 @@ def calculate_bazi(year, month, day, hour, minute, gender, longitude=None, timez
         dict 含四柱、十神、大运、流年等
     """
     import pytz as _pytz
-    # Step 1: 真太阳时修正
-    # 真太阳时 = 标准时区时间 + (出生地经度 - 时区中心经度) × 4 分钟
+    import math as _math
+    # Step 1: 真太阳时修正 = 标准时区时间 + 经度修正 + 时差方程修正
+    # 经度修正：(出生地经度 - 时区中心经度) × 4 分钟
+    # 时差方程：地球轨道椭圆 + 地轴倾斜引起的真太阳时与平均太阳时差异（±0-16 分钟）
+    #   2 月中 ≈ -14 分钟（最大负值） / 4 月中 ≈ 0 / 5-6 月 ≈ ±3
+    #   9 月初 ≈ 0 / 11 月初 ≈ +16 分钟（最大正值）
+    # 公式来源：NOAA 标准近似（精度 ±1 分钟，满足命理需求）
     adjusted_dt = datetime(year, month, day, hour, minute)
+    true_solar_correction = {}  # 修正细节（输出到 JSON 供审计）
     if true_solar_time and longitude is not None and timezone is not None:
-        # 从时区获取 UTC 偏移（小时），推出时区中心经度
-        # UTC+8 → 120°E; UTC-5 → -75°E
         try:
             tz = _pytz.timezone(timezone)
-            # 用一个近似时间获取 UTC offset（避免 DST 跳转问题）
+            # pytz 自动处理夏令时（用具体日期获取 UTC offset）
             utc_offset_seconds = tz.utcoffset(datetime(year, month, day, 12, 0)).total_seconds()
             utc_offset_hours = utc_offset_seconds / 3600
-            tz_longitude = utc_offset_hours * 15  # 每小时=15度
-            offset_minutes = (longitude - tz_longitude) * 4
-            adjusted_dt += timedelta(minutes=offset_minutes)
+            tz_longitude = utc_offset_hours * 15  # 时区中央经线 = 每小时 15 度
+
+            # (a) 经度修正
+            longitude_offset_minutes = (longitude - tz_longitude) * 4
+
+            # (b) 时差方程修正（NOAA 近似公式）
+            day_of_year = datetime(year, month, day).timetuple().tm_yday
+            B = 2 * _math.pi * (day_of_year - 81) / 365
+            eot_minutes = (
+                9.87 * _math.sin(2 * B)
+                - 7.53 * _math.cos(B)
+                - 1.5 * _math.sin(B)
+            )
+
+            # 合并修正
+            total_offset_minutes = longitude_offset_minutes + eot_minutes
+            adjusted_dt += timedelta(minutes=total_offset_minutes)
+
+            true_solar_correction = {
+                "原始钟表时间": f"{year:04d}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}",
+                "时区": timezone,
+                "UTC_offset_hours": utc_offset_hours,
+                "时区中央经线": round(tz_longitude, 2),
+                "出生地经度": longitude,
+                "经度修正_分钟": round(longitude_offset_minutes, 2),
+                "时差方程_分钟": round(eot_minutes, 2),
+                "合计修正_分钟": round(total_offset_minutes, 2),
+                "真太阳时时刻": adjusted_dt.strftime("%Y-%m-%d %H:%M:%S"),
+            }
         except Exception as e:
             # 降级：跳过真太阳时修正
+            true_solar_correction = {"error": f"修正失败: {str(e)}"}
             pass
 
     # Step 2: 用 sxtwl 计算四柱
@@ -282,7 +313,8 @@ def calculate_bazi(year, month, day, hour, minute, gender, longitude=None, timez
             "year": current_year,
             "pillar": current_year_pillar,
             "干十神": ten_god(day_master, current_year_pillar[0]),
-        }
+        },
+        "真太阳时修正": true_solar_correction,  # 修正细节（可审计）
     }
 
 

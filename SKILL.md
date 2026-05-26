@@ -229,7 +229,7 @@ python scripts/paipan_engine.py \
 
 #### subagent 角色分工：
 
-1. `bazi-agent`：只给出生信息 + "用八字（子平派）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 45 条规则 · 严格先走 R44（突出矛盾扫描）+ R45（古典格局识别）+ R1 v3.2（月令本气优先）**。**禁止提及占星**。
+1. `bazi-agent`：只给出生信息 + "用八字（子平派 + 盲派增强）给出以下维度的断语：{维度列表}"，**并显式调用 `references/rules-engine.md` 的 60 条规则 · 严格先走 R44（突出矛盾扫描）+ R45 v2.0（古典格局识别）+ R1 v3.2（月令本气优先）· 格局识别走 R53-R56 + `references/bazi-patterns.md` 32 格局完整手册 · 涉及大运/流年/合盘的动态分析必须经 R20 v2 + R46-R52 合冲刑害体系 · 涉及关系结构 / 婚姻 / 关系吸引模式维度必经 R57 桃花专项规则 · 输出前必走 R58 十神标注自检 · 重大决定问题进来时必走 R59 现实变量必问 · 涉及地理 / 城市选择时必走 R60 双轨实地法**。**禁止提及占星**。
 2. `astrology-agent`：只给出生信息 + "用西洋占星（Tompkins 心理占星派）给出以下维度的断语：{维度列表}"，**并严格按 `references/astrology/06-delineation-sop.md` 的 6 步流程执行**。**禁止提及八字**。
 
 **两 subagent 必须在同一 message 内并行 spawn（两个 Task 调用一起发）**。主 agent 在两者全部返回前不生成任何命理结论。
@@ -585,7 +585,8 @@ Step G. 才发给用户
 4. `references/research/06-epistemology.md`——认识论 + symbolic framework 辩护 + 诚实边界
 
 **规则引擎层**（2026-04-24 起持续蒸馏）：
-- `references/rules-engine.md`——八字 + 占星 + 合盘 + 输出层 + **方法论层** 45 条技术推理规则（R1-R45）+ 双层脱毒架构 + 术语翻译词表 + 古典格局清单
+- `references/rules-engine.md`——八字 + 占星 + 合盘 + 输出层 + **方法论层** + **地支干天互动层** + **格局识别层** + **神煞精选层** + **议会自检+实操层** 60 条技术推理规则（R1-R60）+ 双层脱毒架构 + 术语翻译词表 + 合冲刑害完整体系 + 格局识别 SOP + 桃花专项规则 + 防错机制（十神自检 / 现实变量必问 / 城市方位双轨实地法）
+- `references/bazi-patterns.md`——**32 格局完整手册**（10 正格 + 5 化气 + 5 专旺 + 6 从格 + 6 复合 + 魁罡指针 + 杂格附录），含成格 / 破格 / 临界 / 喜忌 / 现代脱毒意象 / 常见误判 / 接口规则 + 完整识别 SOP + 破格条件总论
 - `references/timing-sop.md`——**时间维度四层叠加 SOP**（命盘/大运/流年/Profection+Transit · 配合 R36/R37）
 - `references/synastry-sop.md`——**合盘 SOP**（八字合婚 + 占星 Synastry · 配合 R38-R42）
 - `scripts/paipan_engine.py`——**本地双轨排盘引擎**（sxtwl + Swiss Ephemeris + Profection，6 案例验证）

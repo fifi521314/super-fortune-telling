@@ -44,7 +44,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
   - **Profection** 计算（Modern + Hellenistic 双系统）+ LOTY
 
 
-### 📐 60 条规则引擎 + 32 格局完整手册
+### 📐 62 条规则引擎 + 32 格局完整手册
 
 - **R1-R15**：八字基础（旺衰三维 v3.2 + 用神排除法 v2 + 调候 + 十神结构）
 - **R16-R20 v2.0**：大运流年 + **地支六冲完整体系**（四正/四生/四库力度分级）
@@ -60,6 +60,7 @@ A Claude Code skill that treats **Chinese BaZi** and **Western Astrology** as tw
 - **R53-R56**：**格局识别层**（R53 十大正格 + R54 化气/专旺/从格 + R55 复合格局 + R56 完整 SOP）
 - **R57**：**神煞精选层**——桃花专项规则（四桃花 + 局桃花并用 / 与十神叠加 / 桃花互动 / 大运流年触发 / 严格脱毒边界）
 - **R58-R60**：**议会自检 + 实操层**（防错机制——R58 十神标注自检 + R59 现实变量必问 + R60 城市方位双轨实地法 —— 全部来源命主反馈触发的真实 agent 错误修复，living-doc 哲学体现）
+- **R61-R62**：**现代心理叙事层（古今并陈）**——R61 十神缺位的现代脱毒读法 + R62 古今并陈叙事框架（参考 Tompkins 心理占星范式，强制三段：【古意】+【现代心理解读】+【具体场景】，是 skill 的范式级升级）
 
 **配套**：`references/bazi-patterns.md` —— **32 格局完整手册**（10 正格 + 5 化气 + 5 专旺 + 6 从格 + 6 复合 + 魁罡指针 + 杂格附录）含成格 / 破格 / 临界 / 喜忌 / 现代脱毒意象 / 常见误判 / 工作流 SOP / 破格条件总论。
 
@@ -194,7 +195,7 @@ super-fortune-telling/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── references/
-│   ├── rules-engine.md       # 60 条核心规则（含 R44/R45 方法论 + R46-R52 合冲刑害 + R53-R56 格局识别 + R57 桃花 + R58-R60 议会自检+实操防错）
+│   ├── rules-engine.md       # 62 条核心规则（含 R44/R45 方法论 + R46-R52 合冲刑害 + R53-R56 格局识别 + R57 桃花 + R58-R60 防错 + R61-R62 古今并陈现代心理叙事）
 │   ├── bazi-patterns.md      # 32 格局完整手册（10 正格 + 5 化气 + 5 专旺 + 6 从格 + 6 复合 + 魁罡指针 + 杂格附录 + SOP）
 │   ├── timing-sop.md         # R36 + R37 时间维度 SOP
 │   ├── synastry-sop.md       # R38-R42 合盘 SOP（八字合婚 + 占星 Synastry）
